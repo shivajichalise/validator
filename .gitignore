@@ -21,5 +21,13 @@
 go.work
 go.work.sum
 
-# env file
+# Output binary
+bin/
+*.log
+
+# Environment/config files
 .env
+*.local
+
+# macOS files
+.DS_Store
