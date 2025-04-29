@@ -22,7 +22,7 @@ func Make(data data, rules rules) *Validator {
 	}
 }
 
-func (v *Validator) Error() Errors {
+func (v *Validator) Errors() Errors {
 	return v.errors
 }
 
