@@ -62,6 +62,30 @@ func TestStringRule(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "string meets max",
+			data: map[string]any{"username": "you wouldn't get this from any other guy"},
+			rules: map[string][]string{
+				"username": {"string", "min:5", "max:40"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "string below min",
+			data: map[string]any{"username": "I just wanna tell you how I'm feeling"},
+			rules: map[string][]string{
+				"username": {"string", "min:5", "max:10"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "max missing param",
+			data: map[string]any{"username": "gotta make you understand"},
+			rules: map[string][]string{
+				"username": {"string", "max"},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {
