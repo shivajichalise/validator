@@ -86,6 +86,78 @@ func TestStringRule(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "basic email valid format",
+			data: map[string]any{"email": "rick@astley.com"},
+			rules: map[string][]string{
+				"email": {"email"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "basic email missing domain",
+			data: map[string]any{"email": "rick@astleycom"},
+			rules: map[string][]string{
+				"email": {"email"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "basic email missing @",
+			data: map[string]any{"email": "rickastley.com"},
+			rules: map[string][]string{
+				"email": {"email"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "rfc email valid",
+			data: map[string]any{"email": "rick@example.com"},
+			rules: map[string][]string{
+				"email": {"email:rfc"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "rfc email invalid format",
+			data: map[string]any{"email": "rick@invalid..com"},
+			rules: map[string][]string{
+				"email": {"email:rfc"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "dns email valid MX",
+			data: map[string]any{"email": "rick@google.com"},
+			rules: map[string][]string{
+				"email": {"email:dns"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "dns email invalid MX",
+			data: map[string]any{"email": "rick@invalid.tld"},
+			rules: map[string][]string{
+				"email": {"email:dns"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "rfc and dns email valid",
+			data: map[string]any{"email": "rick@gmail.com"},
+			rules: map[string][]string{
+				"email": {"email:rfc,dns"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "rfc and dns email invalid",
+			data: map[string]any{"email": "rick@invalid.tld"},
+			rules: map[string][]string{
+				"email": {"email:rfc,dns"},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {
