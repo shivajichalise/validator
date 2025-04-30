@@ -19,7 +19,7 @@ func main() {
 		"name":               {"string"},
 		"username":           {"string"},
 		"description":        {"string", "min:19"},
-		"description_second": {"string", "min:21"},
+		"description_second": {"string", "min:5", "max:19"},
 	}
 
 	v := validator.Make(data, rules)
