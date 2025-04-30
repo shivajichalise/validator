@@ -2,5 +2,5 @@ package validator
 
 type Rule interface {
 	Name() string
-	Validate(field string, value any) error
+	Validate(field string, value any, params ...string) error
 }

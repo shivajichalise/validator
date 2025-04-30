@@ -30,18 +30,28 @@ func (v *Validator) addError(field, message string) {
 	v.errors[field] = append(v.errors[field], message)
 }
 
+func parseRule(expr string) (string, []string) {
+	for i, c := range expr {
+		if c == ':' {
+			return expr[:i], []string{expr[i+1:]}
+		}
+	}
+	return expr, nil
+}
+
 func (v *Validator) Validate() bool {
 	for field, fieldRules := range v.rules {
 		value := v.data[field]
 
-		for _, ruleName := range fieldRules {
+		for _, ruleExpr := range fieldRules {
+			ruleName, params := parseRule(ruleExpr)
 			rule, exists := GetRule(ruleName)
 			if !exists {
 				v.addError(field, fmt.Sprintf("rule '%s' not found", ruleName))
 				continue
 			}
 
-			err := rule.Validate(field, value)
+			err := rule.Validate(field, value, params...)
 			if err != nil {
 				v.addError(field, err.Error())
 			}

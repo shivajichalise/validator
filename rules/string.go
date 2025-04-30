@@ -17,7 +17,7 @@ func (r StringRule) Name() string {
 	return "string"
 }
 
-func (r StringRule) Validate(field string, value any) error {
+func (r StringRule) Validate(field string, value any, _ ...string) error {
 	str, ok := value.(string)
 	if !ok {
 		return fmt.Errorf("%s field must be a valid string", field)
