@@ -11,6 +11,8 @@ func main() {
 	data := map[string]any{
 		"name":               1,
 		"username":           "",
+		"email":              "rick@astley.com",
+		"email_second":       "rick@test.com",
 		"description":        "nevergonnagiveyouup",
 		"description_second": "nevergonnaletyoudown",
 	}
@@ -18,6 +20,8 @@ func main() {
 	rules := map[string][]string{
 		"name":               {"string"},
 		"username":           {"string"},
+		"email":              {"email:rfc,dns"},
+		"email_second":       {"email:rfc,dns"},
 		"description":        {"string", "min:19"},
 		"description_second": {"string", "min:5", "max:19"},
 	}
