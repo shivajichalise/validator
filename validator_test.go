@@ -158,6 +158,102 @@ func TestStringRule(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "int value with int rule",
+			data: map[string]any{"age": 42},
+			rules: map[string][]string{
+				"age": {"int"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "float64 value with int rule",
+			data: map[string]any{"age": 42.0},
+			rules: map[string][]string{
+				"age": {"int"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "float64 value with float64 rule",
+			data: map[string]any{"rating": 4.2},
+			rules: map[string][]string{
+				"rating": {"float64"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "int value with float64 rule",
+			data: map[string]any{"rating": 4},
+			rules: map[string][]string{
+				"rating": {"float64"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "int value with numeric rule",
+			data: map[string]any{"score": 100},
+			rules: map[string][]string{
+				"score": {"numeric"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "float value with numeric rule",
+			data: map[string]any{"score": 99.9},
+			rules: map[string][]string{
+				"score": {"numeric"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "string value with numeric rule",
+			data: map[string]any{"score": "high"},
+			rules: map[string][]string{
+				"score": {"numeric"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "gt with numeric int value passes",
+			data: map[string]any{"amount": 10},
+			rules: map[string][]string{
+				"amount": {"numeric", "gt:5"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "gt with numeric float value passes",
+			data: map[string]any{"amount": 10.5},
+			rules: map[string][]string{
+				"amount": {"numeric", "gt:10.1"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "gt with value equal to threshold fails",
+			data: map[string]any{"amount": 5},
+			rules: map[string][]string{
+				"amount": {"numeric", "gt:5"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "gt with float threshold and int type rule fails",
+			data: map[string]any{"amount": 16},
+			rules: map[string][]string{
+				"amount": {"int", "gt:16.1"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "gt with missing parameter",
+			data: map[string]any{"amount": 20},
+			rules: map[string][]string{
+				"amount": {"numeric", "gt"},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {
