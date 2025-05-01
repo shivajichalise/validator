@@ -310,6 +310,94 @@ func TestStringRule(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "valid boolean true",
+			data: map[string]any{"is_active": true},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid boolean false",
+			data: map[string]any{"is_active": false},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid string 'true'",
+			data: map[string]any{"is_active": "true"},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid string 'false'",
+			data: map[string]any{"is_active": "false"},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid string '1'",
+			data: map[string]any{"is_active": "1"},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid string '0'",
+			data: map[string]any{"is_active": "0"},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid int 1",
+			data: map[string]any{"is_active": 1},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid int 0",
+			data: map[string]any{"is_active": 0},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "invalid string value",
+			data: map[string]any{"is_active": "yes"},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "invalid int value",
+			data: map[string]any{"is_active": 2},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "nil value fails",
+			data: map[string]any{"is_active": nil},
+			rules: map[string][]string{
+				"is_active": {"boolean"},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {
