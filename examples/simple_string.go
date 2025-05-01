@@ -18,6 +18,7 @@ func main() {
 		"age":                "17",
 		"age_2":              17.5,
 		"age_3":              17,
+		"age_4":              80,
 	}
 
 	rules := map[string][]string{
@@ -30,6 +31,7 @@ func main() {
 		"age":                {"numeric"},
 		"age_2":              {"int"},
 		"age_3":              {"float64"},
+		"age_4":              {"int", "lt:81"},
 	}
 
 	v := validator.Make(data, rules)
