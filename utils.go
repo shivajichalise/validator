@@ -5,6 +5,10 @@ import (
 	"reflect"
 )
 
+func IsWholeNumber(f float64) bool {
+	return f == float64(int64(f))
+}
+
 func ToFloat64(value any) (float64, error) {
 	v := reflect.ValueOf(value)
 
