@@ -254,6 +254,62 @@ func TestStringRule(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "lt with int less than threshold",
+			data: map[string]any{"score": 8},
+			rules: map[string][]string{
+				"score": {"numeric", "lt:10"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "lt with int equal to threshold",
+			data: map[string]any{"score": 10},
+			rules: map[string][]string{
+				"score": {"numeric", "lt:10"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "lt with int greater than threshold",
+			data: map[string]any{"score": 12},
+			rules: map[string][]string{
+				"score": {"numeric", "lt:10"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "lt with float less than threshold",
+			data: map[string]any{"score": 9.99},
+			rules: map[string][]string{
+				"score": {"numeric", "lt:10.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "lt with float equal to threshold",
+			data: map[string]any{"score": 10.0},
+			rules: map[string][]string{
+				"score": {"numeric", "lt:10.0"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "lt with int and float threshold mismatch",
+			data: map[string]any{"score": 5},
+			rules: map[string][]string{
+				"score": {"int", "lt:5.5"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "lt with missing param",
+			data: map[string]any{"score": 3},
+			rules: map[string][]string{
+				"score": {"numeric", "lt"},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {
