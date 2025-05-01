@@ -15,6 +15,7 @@ func main() {
 		"email_second":       "rick@test.com",
 		"description":        "nevergonnagiveyouup",
 		"description_second": "nevergonnaletyoudown",
+		"age":                "17",
 	}
 
 	rules := map[string][]string{
@@ -24,6 +25,7 @@ func main() {
 		"email_second":       {"email:rfc,dns"},
 		"description":        {"string", "min:19"},
 		"description_second": {"string", "min:5", "max:19"},
+		"age":                {"numeric"},
 	}
 
 	v := validator.Make(data, rules)
