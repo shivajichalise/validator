@@ -16,6 +16,8 @@ func main() {
 		"description":        "nevergonnagiveyouup",
 		"description_second": "nevergonnaletyoudown",
 		"age":                "17",
+		"age_2":              17.5,
+		"age_3":              17,
 	}
 
 	rules := map[string][]string{
@@ -26,6 +28,8 @@ func main() {
 		"description":        {"string", "min:19"},
 		"description_second": {"string", "min:5", "max:19"},
 		"age":                {"numeric"},
+		"age_2":              {"int"},
+		"age_3":              {"float64"},
 	}
 
 	v := validator.Make(data, rules)
