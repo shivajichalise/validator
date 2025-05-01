@@ -8,7 +8,7 @@ A lightweight, expressive, and extensible validation library for Go — inspired
 
 ## Features
 
-- Rule-based validation like `string`, `numeric`, `email`, `min`, `max`, `gt`, `lt`, etc.
+- Rule-based validation like `string`, `numeric`, `email`, `min`, `max`, `gt`, `lt`, `boolean` etc.
 - Chainable and expressive rule definitions
 - Easy to extend with custom rules
 
@@ -31,15 +31,17 @@ import (
 )
 
 data := map[string]any{
-    "username": "rickastley",
-    "email":    "rick@astley.com",
-    "age":      21,
+    "username":    "rickastley",
+    "email":       "rick@astley.com",
+    "age":         21,
+    "is_admin":    false,
 }
 
 rules := map[string][]string{
-    "username": {"string", "min:5", "max:20"},
-    "email":    {"email:rfc,dns"},
-    "age":      {"numeric", "gt:18"},
+    "username":    {"string", "min:5", "max:20"},
+    "email":       {"email:rfc,dns"},
+    "age":         {"numeric", "gt:18"},
+    "is_admin":    {"boolean"},
 }
 
 v := validator.Make(data, rules)
@@ -68,6 +70,7 @@ if !v.Validate() {
 | `float64` | Value must be a float64                       |
 | `gt:n`    | Value must be greater than n                  |
 | `lt:n`    | Value must be less than n                     |
+| `boolean` | Value must be a boolean                       |
 
 ---
 
@@ -78,6 +81,7 @@ if !v.Validate() {
 "email": {"email:rfc,dns"}
 "age": {"numeric", "gt:18"}
 "score": {"int", "lt:100"}
+"is_admin": {"boolean"}
 ```
 
 ---
@@ -110,6 +114,7 @@ This package is well-tested and includes:
 - `numeric`, `int`, `float64`
 - `gt`, `lt` including type strictness and validation chaining
 - Missing and invalid parameter handling
+- `boolean`
 
 Run all tests:
 
