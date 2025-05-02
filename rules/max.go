@@ -7,16 +7,23 @@ import (
 	"github.com/shivajichalise/validator"
 )
 
+// MaxRule validates that the length of a string does not exceed a specified maximum.
+// It only applies to string values.
+// Use "max:n" in your rule expression, where n is the maximum allowed length.
 type MaxRule struct{}
 
 func init() {
 	validator.RegisterRule(MaxRule{})
 }
 
+// Name returns the name of the rule used in rule expressions (e.g., "max").
 func (r MaxRule) Name() string {
 	return "max"
 }
 
+// Validate checks whether the length of a string value is less than or equal to the given maximum.
+// The maximum length must be provided as a parameter (e.g., "max:10").
+// Returns an error if the value is not a string, the parameter is missing, or the string exceeds the maximum length.
 func (r MaxRule) Validate(field string, value any, params ...string) error {
 	if len(params) == 0 {
 		return fmt.Errorf("%s: max rule requires a length parameter", field)

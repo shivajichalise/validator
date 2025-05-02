@@ -7,16 +7,23 @@ import (
 	"github.com/shivajichalise/validator"
 )
 
+// MinRule validates that the length of a string is at least a specified minimum.
+// This rule applies only to string values.
+// Use "min:n" in rule expressions, where n is the required minimum number of characters.
 type MinRule struct{}
 
 func init() {
 	validator.RegisterRule(MinRule{})
 }
 
+// Name returns the name of the rule used in rule expressions (e.g., "min").
 func (r MinRule) Name() string {
 	return "min"
 }
 
+// Validate checks whether the length of a string value is greater than or equal to the specified minimum.
+// The minimum length must be provided as a parameter (e.g., "min:5").
+// Returns an error if the value is not a string, the parameter is missing, or the string is too short.
 func (r MinRule) Validate(field string, value any, params ...string) error {
 	if len(params) == 0 {
 		return fmt.Errorf("%s: min rule requires a length parameter", field)

@@ -1,3 +1,9 @@
+// Package validator_test provides table-driven tests for all built-in validation rules
+// in the validator package.
+//
+// Each test case defines input data, associated rules, and the expected outcome.
+// These tests verify rule correctness, edge-case handling, and type enforcement
+// across string, numeric, email, boolean, and comparison validations.
 package validator_test
 
 import (

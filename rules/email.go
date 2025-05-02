@@ -10,14 +10,18 @@ import (
 	"github.com/shivajichalise/validator"
 )
 
+// EmailRule validates whether a value is a properly formatted email address.
+// It supports multiple modes: basic format check, RFC-compliant syntax, and DNS MX lookup.
 type EmailRule struct{}
 
+// emailValidationMode controls which levels of email validation are enabled.
 type emailValidationMode struct {
-	basicOnly bool
-	checkRFC  bool
-	checkDNS  bool
+	basicOnly bool // Perform only a simple format check
+	checkRFC  bool // Enable RFC-compliant syntax validation
+	checkDNS  bool // Perform MX record lookup for domain
 }
 
+// basicEmailRegex is used for simple format validation when no advanced checks are enabled.
 var basicEmailRegex *regexp.Regexp
 
 func init() {
@@ -26,10 +30,17 @@ func init() {
 	basicEmailRegex = regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`)
 }
 
+// Name returns the name of the rule used in rule expressions (e.g., "email").
 func (r EmailRule) Name() string {
 	return "email"
 }
 
+// Validate performs email validation on the given field value based on the selected mode.
+// Supported modes (via params):
+//   - "rfc": enables RFC-compliant syntax check
+//   - "dns": enables MX record lookup on domain
+//
+// If no parameters are provided, only the basic format is validated.
 func (r EmailRule) Validate(field string, value any, params ...string) error {
 	str, ok := value.(string)
 	if !ok {
@@ -42,7 +53,7 @@ func (r EmailRule) Validate(field string, value any, params ...string) error {
 
 	mode := parseEmailMode(params)
 
-	// 1. just check the syntax for email
+	// 1. Basic format validation using regex
 	if mode.basicOnly {
 		if !basicEmailRegex.MatchString(str) {
 			return fmt.Errorf("%s must be a valid email format (missing '@' or domain)", field)
@@ -52,14 +63,14 @@ func (r EmailRule) Validate(field string, value any, params ...string) error {
 
 	addr, err := mail.ParseAddress(str)
 
-	// 2. RFC compliant check
+	// 2. RFC-compliant email validation
 	if mode.checkRFC {
 		if err != nil {
 			return fmt.Errorf("%s must be a valid RFC-compliant email address", field)
 		}
 	}
 
-	// 3. DNS MX check
+	// 3. DNS MX record check on domain
 	if mode.checkDNS {
 		domain := strings.ToLower(strings.SplitN(addr.Address, "@", 2)[1])
 
@@ -72,6 +83,8 @@ func (r EmailRule) Validate(field string, value any, params ...string) error {
 	return nil
 }
 
+// parseEmailMode parses rule parameters and returns the enabled validation modes.
+// Defaults to basic-only validation if no parameters are specified.
 func parseEmailMode(params []string) emailValidationMode {
 	if len(params) == 0 {
 		return emailValidationMode{basicOnly: true}

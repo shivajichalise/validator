@@ -5,10 +5,15 @@ import (
 	"reflect"
 )
 
+// IsWholeNumber returns true if the given float64 represents a whole number.
+// For example, 5.0 returns true, while 5.3 returns false.
 func IsWholeNumber(f float64) bool {
 	return f == float64(int64(f))
 }
 
+// ToFloat64 attempts to convert supported numeric types to float64.
+// Accepts int, int8, int16, int32, int64, float32, and float64.
+// Returns an error if the value is not a supported numeric type.
 func ToFloat64(value any) (float64, error) {
 	v := reflect.ValueOf(value)
 

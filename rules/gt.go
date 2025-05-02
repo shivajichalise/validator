@@ -8,16 +8,23 @@ import (
 	"github.com/shivajichalise/validator"
 )
 
+// GtRule validates that a numeric field is greater than a specified threshold.
 type GtRule struct{}
 
 func init() {
 	validator.RegisterRule(GtRule{})
 }
 
+// Name returns the name of the rule used in rule expressions (e.g., "gt").
 func (r GtRule) Name() string {
 	return "gt"
 }
 
+// Validate checks whether the given numeric value is strictly greater than the specified threshold.
+// The threshold must be passed as a parameter (e.g., "gt:10").
+// Returns an error if the value is not numeric, if the parameter is missing,
+// or if the value is not greater than the threshold.
+// If an integer is being compared, the threshold must be a whole number.
 func (r GtRule) Validate(field string, value any, params ...string) error {
 	if len(params) == 0 {
 		return fmt.Errorf("%s: gt rule requires a comparison value", field)
