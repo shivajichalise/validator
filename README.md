@@ -62,8 +62,8 @@ if !v.Validate() {
 | Rule      | Description                                   |
 | --------- | --------------------------------------------- |
 | `string`  | Value must be a non-empty string              |
-| `min:n`   | String length or numeric value must be ≥ n    |
-| `max:n`   | String length or numeric value must be ≤ n    |
+| `min:n`   | String length must be ≥ n                     |
+| `max:n`   | String length must be ≤ n                     |
 | `email`   | Validates email with basic, RFC, or DNS check |
 | `numeric` | Accepts int and float                         |
 | `int`     | Value must be an integer                      |
