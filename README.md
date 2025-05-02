@@ -1,5 +1,7 @@
 # Validator
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/shivajichalise/validator.svg)](https://pkg.go.dev/github.com/shivajichalise/validator) [![Go Report Card](https://goreportcard.com/badge/github.com/shivajichalise/validator)](https://goreportcard.com/report/github.com/shivajichalise/validator) [![License](https://img.shields.io/github/license/shivajichalise/validator)](https://github.com/shivajichalise/validator/blob/main/LICENSE)
+
 ![Validator Banner](https://raw.githubusercontent.com/shivajichalise/validator/refs/heads/main/banner.jpg)
 
 A lightweight, expressive, and extensible validation library for Go — inspired by Laravel’s Validator.
