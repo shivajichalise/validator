@@ -1,6 +1,6 @@
 # Validator
 
-![Validator Banner](https://shivajichalise/validator/banner.png)
+![Validator Banner](https://raw.githubusercontent.com/shivajichalise/validator/refs/heads/main/banner.jpg)
 
 A lightweight, expressive, and extensible validation library for Go — inspired by Laravel’s Validator.
 
