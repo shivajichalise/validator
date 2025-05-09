@@ -10,7 +10,7 @@ A lightweight, expressive, and extensible validation library for Go — inspired
 
 ## Features
 
-- Rule-based validation like `string`, `numeric`, `email`, `min`, `max`, `gt`, `lt`, `boolean` etc.
+- Rule-based validation like `string`, `numeric`, `email`, `min`, `max`, `gt`, `lt`, `boolean`, `between` etc.
 - Chainable and expressive rule definitions
 - Easy to extend with custom rules
 
@@ -37,13 +37,14 @@ data := map[string]any{
     "email":       "rick@astley.com",
     "age":         21,
     "is_admin":    false,
+    "duration":    10,
 }
 
 rules := map[string][]string{
     "username":    {"string", "min:5", "max:20"},
     "email":       {"email:rfc,dns"},
     "age":         {"numeric", "gt:18"},
-    "is_admin":    {"boolean"},
+    "duration":    {"between:9,11"},
 }
 
 v := validator.Make(data, rules)
@@ -61,18 +62,19 @@ if !v.Validate() {
 
 ## Supported Rules
 
-| Rule      | Description                                   |
-| --------- | --------------------------------------------- |
-| `string`  | Value must be a non-empty string              |
-| `min:n`   | String length must be ≥ n                     |
-| `max:n`   | String length must be ≤ n                     |
-| `email`   | Validates email with basic, RFC, or DNS check |
-| `numeric` | Accepts int and float                         |
-| `int`     | Value must be an integer                      |
-| `float64` | Value must be a float64                       |
-| `gt:n`    | Value must be greater than n                  |
-| `lt:n`    | Value must be less than n                     |
-| `boolean` | Value must be a boolean                       |
+| Rule              | Description                                   |
+| ----------------- | --------------------------------------------- |
+| `string`          | Value must be a non-empty string              |
+| `min:n`           | String length must be ≥ n                     |
+| `max:n`           | String length must be ≤ n                     |
+| `email`           | Validates email with basic, RFC, or DNS check |
+| `numeric`         | Accepts int and float                         |
+| `int`             | Value must be an integer                      |
+| `float64`         | Value must be a float64                       |
+| `gt:n`            | Value must be greater than n                  |
+| `lt:n`            | Value must be less than n                     |
+| `boolean`         | Value must be a boolean                       |
+| `between:min,max` | Value must be between min and max             |
 
 ---
 
@@ -84,6 +86,7 @@ if !v.Validate() {
 "age": {"numeric", "gt:18"}
 "score": {"int", "lt:100"}
 "is_admin": {"boolean"}
+"duration": {"between:9,11"}
 ```
 
 ---
@@ -117,6 +120,7 @@ This package is well-tested and includes:
 - `gt`, `lt` including type strictness and validation chaining
 - Missing and invalid parameter handling
 - `boolean`
+- `between`
 
 Run all tests:
 
