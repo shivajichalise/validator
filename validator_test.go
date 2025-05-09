@@ -404,6 +404,94 @@ func TestStringRule(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "value within range",
+			data: map[string]any{"duration": 10},
+			rules: map[string][]string{
+				"duration": {"between:9,11"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "value equal to lower bound (exclusive)",
+			data: map[string]any{"duration": 9},
+			rules: map[string][]string{
+				"duration": {"between:9,11"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "value equal to upper bound (exclusive)",
+			data: map[string]any{"duration": 11},
+			rules: map[string][]string{
+				"duration": {"between:9,11"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "value below lower bound",
+			data: map[string]any{"duration": 8},
+			rules: map[string][]string{
+				"duration": {"between:9,11"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "value above upper bound",
+			data: map[string]any{"duration": 12},
+			rules: map[string][]string{
+				"duration": {"between:9,11"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "non-numeric value",
+			data: map[string]any{"duration": "ten"},
+			rules: map[string][]string{
+				"duration": {"between:9,11"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "missing param format",
+			data: map[string]any{"duration": 10},
+			rules: map[string][]string{
+				"duration": {"between"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "invalid param format (only one value)",
+			data: map[string]any{"duration": 10},
+			rules: map[string][]string{
+				"duration": {"between:10"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "invalid param format (non-numeric caps)",
+			data: map[string]any{"duration": 10},
+			rules: map[string][]string{
+				"duration": {"between:low,high"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "integer field with non-integer bounds",
+			data: map[string]any{"duration": 10},
+			rules: map[string][]string{
+				"duration": {"between:9.5,11.5"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "float field with integer bounds",
+			data: map[string]any{"duration": 10.5},
+			rules: map[string][]string{
+				"duration": {"between:9,11"},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {
