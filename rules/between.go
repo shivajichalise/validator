@@ -28,6 +28,7 @@ func (r BetweenRule) Name() string {
 // - the value is not numeric
 // - the value is not strictly between the provided thresholds
 // - the field is an integer and thresholds are not whole numbers
+// - the field is a float and thresholds are not precise enough (e.g., both bounds are integers)
 func (r BetweenRule) Validate(field string, value any, params ...string) error {
 	if len(params) != 1 {
 		return fmt.Errorf("%s: between rule requires a single parameter in the format 'min,max'", field)
@@ -54,12 +55,17 @@ func (r BetweenRule) Validate(field string, value any, params ...string) error {
 	}
 
 	kind := reflect.TypeOf(value).Kind()
-	if kind == reflect.Int {
+	switch kind {
+	case reflect.Int:
 		if !validator.IsWholeNumber(min) {
 			return fmt.Errorf("between value %.2f must be a whole number when %s is an integer", min, field)
 		}
 		if !validator.IsWholeNumber(max) {
 			return fmt.Errorf("between value %.2f must be a whole number when %s is an integer", max, field)
+		}
+	case reflect.Float32, reflect.Float64:
+		if validator.IsWholeNumber(min) && validator.IsWholeNumber(max) {
+			return fmt.Errorf("%s: float fields must use at least one decimal bound in between rule", field)
 		}
 	}
 
