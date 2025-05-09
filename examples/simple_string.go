@@ -20,6 +20,7 @@ func main() {
 		"login_attempts": 17,
 		"max_score":      80,
 		"is_verified":    "1",
+		"duration":       10,
 	}
 
 	rules := map[string][]string{
@@ -34,6 +35,7 @@ func main() {
 		"login_attempts": {"float64"},                   // should fail: int given
 		"max_score":      {"int", "lt:81"},              // should pass
 		"is_verified":    {"boolean"},                   // should pass: string "1" allowed
+		"duration":       {"between:9,11"},              // should pass
 	}
 
 	v := validator.Make(data, rules)
